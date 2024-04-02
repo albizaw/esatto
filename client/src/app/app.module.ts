@@ -16,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PasswordInputComponent } from './shared/password-input/password-input.component';
 import { EmailInputComponent } from './shared/email-input/email-input.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { EmailInputComponent } from './shared/email-input/email-input.component'
     PageNotFoundComponent,
     PasswordInputComponent,
     EmailInputComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { EmailInputComponent } from './shared/email-input/email-input.component'
     MatCardModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NgToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

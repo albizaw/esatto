@@ -6,6 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { ImmediateErrorStateMatcher } from 'src/app/helpers/ErrorStateMatcher';
 import { LoginRequest } from 'src/app/models/authRequest';
 import { EmailValidation } from 'src/app/validators/EmailValidator';
@@ -21,7 +23,12 @@ export class LoginComponent {
   loginForm: FormGroup;
   matcher = new ImmediateErrorStateMatcher();
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private toast: NgToastService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [EmailValidation.email]],
       password: ['', [PasswordValidation.passwordStrength]],
@@ -39,9 +46,20 @@ export class LoginComponent {
       this.authService.login(loginRequest).subscribe({
         next: (user) => {
           console.log('User:', user);
+          this.toast.success({
+            detail: 'Login successful',
+            summary: 'Success!',
+            duration: 5000,
+          });
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          console.error('Login error:', error);
+          console.log('Error:', error.error);
+          this.toast.error({
+            detail: 'Login failed',
+            summary: error.error,
+            duration: 5000,
+          });
         },
       });
     } else {

@@ -1,7 +1,9 @@
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ImmediateErrorStateMatcher } from 'src/app/helpers/ErrorStateMatcher';
+import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
+
 import { RegisterRequest } from 'src/app/models/authRequest';
 import { EmailValidation } from 'src/app/validators/EmailValidator';
 import { PasswordValidation } from 'src/app/validators/PasswordValidator';
@@ -20,7 +22,11 @@ export class RegisterComponent {
   isText: boolean = false;
   type: string = 'password';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toast: NgToastService
+  ) {
     this.registerForm = this.fb.group({
       email: [null, [EmailValidation.email]],
       password: ['', [PasswordValidation.passwordStrength]],
@@ -40,9 +46,19 @@ export class RegisterComponent {
       this.authService.register(registerRequest).subscribe({
         next: () => {
           console.log('Registration successful');
+          this.toast.success({
+            detail: 'Registration successful',
+            summary: 'Success!',
+            duration: 5000,
+          });
         },
         error: (error) => {
-          console.error('Registration error:', error);
+          console.log('Error:', error.error);
+          this.toast.error({
+            detail: 'Registration failed',
+            summary: error.error,
+            duration: 5000,
+          });
         },
       });
     } else {
