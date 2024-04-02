@@ -10,7 +10,7 @@ export interface LoginRequest {
 }
 
 export interface User {
-  id: number;
+  userid: number;
   email: string;
 }
 
@@ -19,6 +19,6 @@ export interface LoginResponse {
 }
 
 export interface DecodedToken {
-  nameid: number;
+  userid: number;
   email: string;
 }

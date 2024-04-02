@@ -1,1 +1,45 @@
-<p>register works!</p>
+<div class="container">
+  <mat-card class="form-container">
+    <div class="header">
+      <p>Sign Up</p>
+    </div>
+
+    <form class="login-form" [formGroup]="registerForm">
+      <div class="form-input">
+        <app-email-input [control]="getControl('email')"></app-email-input>
+      </div>
+
+      <div class="form-input">
+        <div class="form-inp">
+          <app-password-input
+            [control]="getControl('password')"
+          ></app-password-input>
+        </div>
+      </div>
+
+      <div class="form-input">
+        <div class="form-inp">
+          <app-password-input
+            label="Confirm Password"
+            [control]="getControl('confirmPassword')"
+          ></app-password-input>
+        </div>
+      </div>
+
+      <div class="button-sub">
+        <button
+          type="submit"
+          (click)="onSubmit()"
+          mat-raised-button
+          color="primary"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+
+    <div class="new-account">
+      Already have an account? <a routerLink="/login">Login</a>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline">
+  <mat-label>Email</mat-label>
+  <input type="email" [formControl]="control" matInput />
+  <mat-error *ngIf="control.dirty && control.invalid">
+    <ng-container *ngIf="control.errors?.['required']; else emailFormatError">
+      {{control.errors?.['required']}}
+    </ng-container>
+    <ng-template #emailFormatError>
+      <ng-container *ngIf="control.errors?.['emailFormat']">
+        {{control.errors?.['emailFormat']}}
+      </ng-container>
+    </ng-template>
+  </mat-error>
+</mat-form-field>

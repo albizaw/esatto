@@ -18,8 +18,8 @@ namespace server.Helpers
         {
             var claims = new List<Claim>
           {
-              new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-              new Claim(ClaimTypes.Email, user.Email)
+              new Claim("userid", user.Id.ToString()),
+              new Claim("email", user.Email)
           };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));

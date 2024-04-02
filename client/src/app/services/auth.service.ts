@@ -37,12 +37,12 @@ export class AuthService {
 
   login(loginRequest: LoginRequest) {
     return this.http
-      .post<LoginResponse>(`${this.baseUrl}/login`, loginRequest)
+      .post(`${this.baseUrl}/login`, loginRequest, { responseType: 'text' })
       .pipe(
-        map((response) => {
-          const decodedToken = jwtDecode<DecodedToken>(response.token);
+        map((token: string) => {
+          const decodedToken = jwtDecode<DecodedToken>(token);
           const user: User = {
-            id: decodedToken.nameid,
+            userid: decodedToken.userid,
             email: decodedToken.email,
           };
           localStorage.setItem('currentUser', JSON.stringify(user));

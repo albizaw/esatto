@@ -1,1 +1,40 @@
-cos tam
+<div class="container">
+  <mat-card class="form-container">
+    <div class="header">
+      <p>Login</p>
+    </div>
+
+    <form class="login-form" [formGroup]="loginForm">
+      <div class="form-input">
+        <app-email-input [control]="getControl('email')"></app-email-input>
+      </div>
+
+      <div class="form-input">
+        <div class="form-inp">
+          <app-password-input
+            [control]="getControl('password')"
+          ></app-password-input>
+        </div>
+
+        <div class="forgot-pass">
+          <small>Forgot your password?</small>
+        </div>
+      </div>
+
+      <div class="button-sub">
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+
+    <div class="new-account">
+      Don't have account? <a routerLink="/register">Sign Up</a>
+    </div>
+  </mat-card>
+</div>
