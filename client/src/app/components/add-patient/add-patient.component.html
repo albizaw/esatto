@@ -1,1 +1,85 @@
-<p>add-patient works!</p>
+<mat-stepper #stepper>
+  <!-- Second Step -->
+  <mat-step [stepControl]="firstFormGroup" errorMessage="Fill all fieldss.">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Patient</ng-template>
+
+      <div class="form-section top-bar">
+        <app-first-and-last-name
+          [control]="getFirstFormControl('firstName')"
+          [label]="'Firstname'"
+          [placeholder]="'Firstname'"
+        ></app-first-and-last-name>
+        <app-first-and-last-name
+          [control]="getFirstFormControl('lastName')"
+          [label]="'LastName'"
+          [placeholder]="'Lastname'"
+        ></app-first-and-last-name>
+      </div>
+
+      <div class="form-section">
+        <app-pesel [control]="getFirstFormControl('PESEL')"></app-pesel>
+        <app-city-and-street
+          [control]="getFirstFormControl('city')"
+          [label]="'City'"
+          [placeholder]="'City'"
+        ></app-city-and-street>
+      </div>
+      <div class="form-section">
+        <app-city-and-street
+          [control]="getFirstFormControl('street')"
+          [label]="'Street'"
+          [placeholder]="'Street'"
+        ></app-city-and-street>
+        <app-zip-code [control]="getFirstFormControl('zipCode')"></app-zip-code>
+      </div>
+      <div class="step-actions">
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Second Step -->
+  <mat-step
+    [stepControl]="secondFormGroup"
+    errorMessage="Illness name is required."
+  >
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Illness Details</ng-template>
+      <div class="form-section">
+        <mat-form-field>
+          <mat-label>Illness Name</mat-label>
+          <input
+            matInput
+            placeholder="Illness name"
+            formControlName="illnessName"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            placeholder="Description"
+            formControlName="illnessDescription"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div class="step-actions">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <div class="step-actions">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="addPatient()" [disabled]="!isFormValid()">
+        Submit
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

@@ -25,7 +25,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router: Router
   ) {
     this.registerForm = this.fb.group({
       email: [null, [EmailValidation.email]],
@@ -43,6 +44,7 @@ export class RegisterComponent {
         confirmPassword: this.registerForm.value.confirmPassword,
       };
 
+      //TO DO! toast could be move to sepaate service, arguments error/success - details - summary
       this.authService.register(registerRequest).subscribe({
         next: () => {
           console.log('Registration successful');
@@ -50,7 +52,10 @@ export class RegisterComponent {
             detail: 'Registration successful',
             summary: 'Success!',
             duration: 5000,
+            position: 'bottomRight',
           });
+
+          this.router.navigate(['/login']);
         },
         error: (error) => {
           console.log('Error:', error.error);
@@ -58,6 +63,7 @@ export class RegisterComponent {
             detail: 'Registration failed',
             summary: error.error,
             duration: 5000,
+            position: 'bottomRight',
           });
         },
       });

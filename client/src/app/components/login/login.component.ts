@@ -57,8 +57,9 @@ export class LoginComponent {
           console.log('Error:', error.error);
           this.toast.error({
             detail: 'Login failed',
-            summary: error.error,
+            summary: error.error?.message || 'An unexpected error occurred',
             duration: 5000,
+            position: 'bottomRight',
           });
         },
       });

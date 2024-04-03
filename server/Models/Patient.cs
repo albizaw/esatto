@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace server.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+
         public string PESEL { get; set; }
 
         public string City { get; set; }
@@ -20,6 +22,10 @@ namespace server.Models
         public string ZipCode { get; set; }
 
         public int UserId { get; set; }
+
+        public string IllnessName { get; set; }
+
+        public string? IllnessDescription { get; set; }
 
 
     }

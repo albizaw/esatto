@@ -20,6 +20,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { AddPatientComponent } from './components/add-patient/add-patient.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FirstAndLastNameComponent } from './shared/first-and-last-name/first-and-last-name.component';
+import { PeselComponent } from './shared/pesel/pesel.component';
+import { CityAndStreetComponent } from './shared/city-and-street/city-and-street.component';
+import { ZipCodeComponent } from './shared/zip-code/zip-code.component';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { PatientsListComponent } from './components/patients-list/patients-list.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +39,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     PasswordInputComponent,
     EmailInputComponent,
     DashboardComponent,
+    AddPatientComponent,
+    FirstAndLastNameComponent,
+    PeselComponent,
+    CityAndStreetComponent,
+    ZipCodeComponent,
+    PatientsListComponent,
   ],
   imports: [
+    CommonModule,
+    MatTableModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -44,8 +61,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgToastModule,
+
     MatToolbarModule,
     MatSidenavModule,
+    MatStepperModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

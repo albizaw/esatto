@@ -24,6 +24,13 @@ namespace server.Services.PatientService
         public async Task<PatientDTO> AddPatient(PatientDTO patientDto, string userId)
         {
             var doctorId = int.Parse(userId);
+
+            var existingPatient = _context.Patients.FirstOrDefault(p => p.PESEL == patientDto.PESEL);
+            if (existingPatient != null)
+            {
+                throw new ArgumentException($"A patient with this PESEL already exists.");
+            }
+
             var patient = _mapper.Map<Patient>(patientDto);
             patient.UserId = doctorId;
 

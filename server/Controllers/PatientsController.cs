@@ -23,12 +23,13 @@ namespace server.Controllers
             _patientService = patientService;
         }
 
-        [HttpPost]
+        [HttpPost("addPatient")]
+
         public async Task<IActionResult> AddPatient(PatientDTO patient)
         {
             try
             {
-                var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userId = HttpContext.User.FindFirstValue("userid");
                 var newPatient = await _patientService.AddPatient(patient, userId);
                 return Ok(newPatient);
             }

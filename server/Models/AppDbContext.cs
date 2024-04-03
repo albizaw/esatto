@@ -14,6 +14,16 @@ namespace server.Models
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Patient>(entity =>
+            {
+                entity.HasIndex(e => e.PESEL).IsUnique();
+            });
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
 

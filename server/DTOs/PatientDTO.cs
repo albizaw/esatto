@@ -7,7 +7,8 @@ namespace server.DTOs
 {
     public class PatientDTO
     {
-        public int Id { get; set; }
+
+        public int? Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -18,6 +19,10 @@ namespace server.DTOs
         public string Street { get; set; }
 
         public string ZipCode { get; set; }
+
+        public string IllnessName { get; set; }
+
+        public string IllnessDescription { get; set; }
 
     }
 }
