@@ -11,6 +11,7 @@ import {
 
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const storedUser = localStorage.getItem('currentUser');
     const currentUser = storedUser ? JSON.parse(storedUser) : null;
     this.currentUserSubject = new BehaviorSubject<User | null>(currentUser);
@@ -70,6 +71,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigate(['/login']);
     this.currentUserSubject.next(null);
   }
 

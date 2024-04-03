@@ -24,7 +24,9 @@ const routes: Routes = [
       import('./modules/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+    canActivate: [AuthGuardService],
   },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 

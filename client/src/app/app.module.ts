@@ -18,6 +18,8 @@ import { PasswordInputComponent } from './shared/password-input/password-input.c
 import { EmailInputComponent } from './shared/email-input/email-input.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NgToastModule } from 'ng-angular-popup';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { NgToastModule } from 'ng-angular-popup';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgToastModule,
+    MatToolbarModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
