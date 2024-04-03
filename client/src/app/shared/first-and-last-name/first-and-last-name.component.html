@@ -1,0 +1,24 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [type]="type"
+  />
+  <mat-error *ngIf="control.dirty && control.invalid">
+    <ng-container *ngIf="control.errors?.['required']; else nameOthersError">
+      {{ control.errors?.['required'] }}
+    </ng-container>
+    <ng-template #nameOthersError>
+      <ng-container *ngIf="control.errors?.['name']; else nameMinLengthError">
+        {{ control.errors?.['name'] }}
+      </ng-container>
+    </ng-template>
+    <ng-template #nameMinLengthError>
+      <ng-container *ngIf="control.errors?.['minlength']">
+        {{ control.errors?.['minlength'] }}
+      </ng-container>
+    </ng-template>
+  </mat-error>
+</mat-form-field>

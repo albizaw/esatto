@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline">
+  <mat-label>Zip Code</mat-label>
+  <input matInput placeholder="Zip Code" [formControl]="control" type="text" />
+  <mat-error *ngIf="control.dirty && control.invalid">
+    <ng-container *ngIf="control.errors?.['required']; else zipCodeError">
+      {{ control.errors?.['required'] }}
+    </ng-container>
+    <ng-template #zipCodeError>
+      <ng-container *ngIf="control.errors?.['zipCode']">
+        {{ control.errors?.['zipCode'] }}
+      </ng-container>
+    </ng-template>
+  </mat-error>
+</mat-form-field>

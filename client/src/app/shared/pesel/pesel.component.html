@@ -1,0 +1,19 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [type]="type"
+  />
+  <mat-error *ngIf="control.dirty && control.invalid">
+    <ng-container *ngIf="control.errors?.['required']; else peselError">
+      {{ control.errors?.['required'] }}
+    </ng-container>
+    <ng-template #peselError>
+      <ng-container *ngIf="control.errors?.['pesel']">
+        {{ control.errors?.['pesel'] }}
+      </ng-container>
+    </ng-template>
+  </mat-error>
+</mat-form-field>
