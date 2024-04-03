@@ -1,10 +1,10 @@
-# Cinema Project - Setup Instructions
+# Medical App - Setup Instructions
 
-This repository contains the client and server applications for the Cinema App. This client side was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5, while the server application is a .NET 8 SDK that uses PostgreSQL as the backend database.
+This repository contains the client and server applications for the Medical App. This client side was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5, while the server application is a .NET 8 SDK that uses PostgreSQL as the backend database.
 
 ## Prerequisites
 
-Before running the Cinema App, ensure that you have the following software installed on your system:
+Before running the Medical App, ensure that you have the following software installed on your system:
 
     1. Node.js 18.20
     2. Angular CLI
@@ -13,7 +13,7 @@ Before running the Cinema App, ensure that you have the following software insta
 
 ## Getting Started
 
-To set up and run the Cinema App, follow these steps:
+To set up and run the Medical App, follow these steps:
 
 ### Client (Angular)
 
@@ -35,7 +35,7 @@ To set up and run the Cinema App, follow these steps:
 
    This will download and install all the necessary NuGet packages specified in the server.csproj file.
 
-4. Create a new PostgreSQL database for the Cinema App.
+4. Create a new PostgreSQL database for the Medical App.
 5. Update the connection string in the **`appsettings.json`** file with your PostgreSQL database.
 
    ```
@@ -68,6 +68,6 @@ To set up and run the Cinema App, follow these steps:
 - You can use tools like pgAdmin or psql to interact with the PostgreSQL database.
 - The client application communicates with the server API to fetch data and perform actions.
 
-Now, you have the Cinema App up and running on your local machine. You can access it by navigating to http://localhost:4200 in your web browser.
+Now, you have the Medical App up and running on your local machine. You can access it by navigating to http://localhost:4200 in your web browser.
 
 Happy coding!:)
