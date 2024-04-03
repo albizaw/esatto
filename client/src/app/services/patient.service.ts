@@ -24,9 +24,12 @@ export class PatientService {
 
   getPatients(): Observable<PatientDTO[]> {
     const headers = this.bearerHeaders();
-    return this.http.get<PatientDTO[]>(`${this.baseUrl}`, {
-      headers,
-    });
+    return this.http.get<PatientDTO[]>(
+      `${this.baseUrl}/getPatientsForCurrentUser`,
+      {
+        headers,
+      }
+    );
   }
 
   deletePatient(id: number): Observable<any> {
@@ -36,8 +39,11 @@ export class PatientService {
     });
   }
 
-  editPatient(id: number, patient: PatientDTO): Observable<PatientDTO> {
-    return this.http.put<PatientDTO>(`${this.baseUrl}/${id}`, patient);
+  editPatient(patient: PatientDTO, id?: number): Observable<PatientDTO> {
+    const headers = this.bearerHeaders();
+    return this.http.put<PatientDTO>(`${this.baseUrl}/${id}`, patient, {
+      headers,
+    });
   }
 
   bearerHeaders(): HttpHeaders {

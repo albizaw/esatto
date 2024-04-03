@@ -62,6 +62,17 @@ namespace server.Services.PatientService
                 throw new KeyNotFoundException($"Patient with ID {id} not found.");
             }
 
+            if (patient.PESEL != patientDto.PESEL)
+            {
+
+                var existingPatientWithPESEL = await _context.Patients
+                    .AnyAsync(p => p.PESEL == patientDto.PESEL);
+                if (existingPatientWithPESEL)
+                {
+                    throw new InvalidOperationException("PESEL must be unique.");
+                }
+            }
+
             _mapper.Map(patientDto, patient);
             await _context.SaveChangesAsync();
 
@@ -86,6 +97,19 @@ namespace server.Services.PatientService
             var patients = await _context.Patients.ToListAsync();
             return _mapper.Map<IEnumerable<PatientDTO>>(patients);
         }
+
+        public async Task<IEnumerable<PatientDTO>> GetPatientsByUserId(string userId)
+        {
+
+            int parsedUserId = int.Parse(userId);
+
+            var patients = await _context.Patients
+                                         .Where(p => p.UserId == parsedUserId)
+                                         .ToListAsync();
+
+            return _mapper.Map<IEnumerable<PatientDTO>>(patients);
+        }
+
 
     }
 }

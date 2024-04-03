@@ -50,6 +50,7 @@ export class LoginComponent {
             detail: 'Login successful',
             summary: 'Success!',
             duration: 5000,
+            position: 'bottomRight',
           });
           this.router.navigate(['/dashboard']);
         },

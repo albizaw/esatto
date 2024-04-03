@@ -11,6 +11,7 @@ namespace server.Services.PatientService
         Task<PatientDTO> EditPatient(int id, PatientDTO patient);
         Task<PatientDTO> GetPatient(int id);
         Task<IEnumerable<PatientDTO>> GetPatients();
+        Task<IEnumerable<PatientDTO>> GetPatientsByUserId(string userId);
 
     }
 }

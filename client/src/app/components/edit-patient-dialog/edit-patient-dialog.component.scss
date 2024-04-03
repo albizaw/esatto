@@ -1,0 +1,36 @@
+.form-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  app-first-and-last-name,
+  app-pesel,
+  app-city-and-street,
+  app-zip-code {
+    flex: 0 0 45%;
+    margin-bottom: 8px;
+
+    @media (max-width: 600px) {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+.top-bar {
+  margin-top: 16px;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+
+  button {
+    margin-left: 10px;
+  }
+}

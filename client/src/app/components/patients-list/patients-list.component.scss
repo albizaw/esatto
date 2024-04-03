@@ -1,4 +1,26 @@
 .patients-table-container {
   max-width: 100%;
   overflow-x: auto;
+  height: -webkit-fill-available;
+
+  .empty-state {
+    text-align: center;
+    margin-top: 20px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+@media (max-width: 600px) {
+  .mat-cell,
+  .mat-header-cell {
+    padding: 8px;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: -webkit-fill-available;
+  width: 100%;
 }

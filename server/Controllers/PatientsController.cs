@@ -81,13 +81,34 @@ namespace server.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditPatient(int id, PatientDTO patient)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditPatient(PatientDTO patient, int id)
         {
             try
             {
                 var editedPatient = await _patientService.EditPatient(id, patient);
                 return Ok(editedPatient);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("getPatientsForCurrentUser")]
+        public async Task<IActionResult> GetPatientsForCurrentUser()
+        {
+            try
+            {
+                var userId = HttpContext.User.FindFirstValue("userid");
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("User is not authenticated.");
+                }
+
+                var patients = await _patientService.GetPatientsByUserId(userId);
+                return Ok(patients);
             }
             catch (Exception e)
             {

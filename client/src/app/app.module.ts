@@ -29,6 +29,10 @@ import { ZipCodeComponent } from './shared/zip-code/zip-code.component';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { PatientsListComponent } from './components/patients-list/patients-list.component';
+import { MatSortModule } from '@angular/material/sort';
+import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,7 @@ import { PatientsListComponent } from './components/patients-list/patients-list.
     CityAndStreetComponent,
     ZipCodeComponent,
     PatientsListComponent,
+    EditPatientDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -61,10 +66,12 @@ import { PatientsListComponent } from './components/patients-list/patients-list.
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgToastModule,
-
+    MatSortModule,
     MatToolbarModule,
     MatSidenavModule,
     MatStepperModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

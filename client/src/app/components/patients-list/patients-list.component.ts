@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { startWith, switchMap, map } from 'rxjs';
+import { NgToastService } from 'ng-angular-popup';
+
 import { PatientDTO } from '../../models/patientRequest';
 import { PatientService } from 'src/app/services/patient.service';
-import { Observable } from 'rxjs';
-import { NgToastService } from 'ng-angular-popup';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPatientDialogComponent } from '../edit-patient-dialog/edit-patient-dialog.component';
 
 @Component({
   selector: 'app-patients-list',
@@ -10,7 +16,14 @@ import { NgToastService } from 'ng-angular-popup';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.updateDisplayedColumns();
+  }
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+
   displayedColumns: string[] = [
+    'id',
     'firstName',
     'lastName',
     'PESEL',
@@ -20,15 +33,76 @@ export class PatientsListComponent implements OnInit {
     'actions',
   ];
 
-  patients$: Observable<PatientDTO[]> = this.patientService.getPatients();
+  isLoading = true;
+  dataSource = new MatTableDataSource<PatientDTO>();
+  searchControl = new FormControl('');
 
   constructor(
     private patientService: PatientService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.patients$ = this.patientService.getPatients();
+    this.fetchPatients();
+
+    this.patientService.getPatients().subscribe((patients) => {
+      this.dataSource.data = patients;
+      this.dataSource.sort = this.sort;
+    });
+
+    this.dataSource.filterPredicate = (data: PatientDTO, filter: string) => {
+      const accumulator = (currentTerm: string, key: string) => {
+        return key === 'pesel'
+          ? currentTerm + data.pesel
+          : currentTerm +
+              data.id +
+              data.firstName +
+              data.lastName +
+              data.city +
+              data.street +
+              data.zipCode;
+      };
+      const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
+
+    this.searchControl.valueChanges
+      .pipe(startWith(''))
+      .subscribe((filterValue) => {
+        this.dataSource.filter = filterValue ?? '';
+      });
+  }
+
+  fetchPatients() {
+    this.isLoading = true;
+    this.patientService.getPatients().subscribe({
+      next: (patients) => {
+        this.dataSource.data = patients;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching patients:', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  updateDisplayedColumns() {
+    this.displayedColumns =
+      window.innerWidth <= 768
+        ? ['id', 'firstName', 'lastName', 'actions']
+        : [
+            'id',
+            'firstName',
+            'lastName',
+            'PESEL',
+            'city',
+            'street',
+            'zipCode',
+            'actions',
+          ];
   }
 
   deletePatient(patientId: number): void {
@@ -47,11 +121,24 @@ export class PatientsListComponent implements OnInit {
           duration: 5000,
           position: 'bottomRight',
         });
-        this.patients$ = this.patientService.getPatients();
+        this.fetchPatients();
       },
       error: (error) => {
         console.error('Error deleting patient:', error);
       },
+    });
+  }
+
+  openEditDialog(patient: PatientDTO): void {
+    const dialogRef = this.dialog.open(EditPatientDialogComponent, {
+      width: '600px',
+      data: { patient },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.fetchPatients();
+      }
     });
   }
 }
