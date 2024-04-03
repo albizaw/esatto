@@ -60,7 +60,7 @@ To set up and run the Medical App, follow these steps:
    This will create the database tables based on the migration files.
 
 8. Run the server application: `dotnet run`.
-9. The server will start running at: `http://localhost:5295`.
+9. The server will start running at: `http://localhost:5244`.
 
 ## Additional Notes
 
