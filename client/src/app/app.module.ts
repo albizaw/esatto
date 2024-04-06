@@ -33,6 +33,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ZipCodeComponent,
     PatientsListComponent,
     EditPatientDialogComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +75,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatStepperModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

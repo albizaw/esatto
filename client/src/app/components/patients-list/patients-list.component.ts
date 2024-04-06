@@ -9,6 +9,7 @@ import { PatientService } from 'src/app/services/patient.service';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPatientDialogComponent } from '../edit-patient-dialog/edit-patient-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-patients-list',
@@ -20,7 +21,8 @@ export class PatientsListComponent implements OnInit {
   onResize() {
     this.updateDisplayedColumns();
   }
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   displayedColumns: string[] = [
     'id',
@@ -49,6 +51,7 @@ export class PatientsListComponent implements OnInit {
     this.patientService.getPatients().subscribe((patients) => {
       this.dataSource.data = patients;
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
 
     this.dataSource.filterPredicate = (data: PatientDTO, filter: string) => {
@@ -81,6 +84,8 @@ export class PatientsListComponent implements OnInit {
       next: (patients) => {
         this.dataSource.data = patients;
         this.isLoading = false;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
         console.error('Error fetching patients:', error);

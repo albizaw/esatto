@@ -62,6 +62,11 @@ To set up and run the Medical App, follow these steps:
 8. Run the server application: `dotnet run`.
 9. The server will start running at: `http://localhost:5244`.
 
+## Default account
+
+- Default login: <b>admin@admin.com</b>
+- Default password: <b>Admin123@ </b>
+
 ## Additional Notes
 
 - Ensure that PostgreSQL is running and accessible before starting the server application.

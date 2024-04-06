@@ -6,6 +6,7 @@ import {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
+  UpdatePasswordDTO,
   User,
 } from '../models/authRequest';
 
@@ -67,6 +68,13 @@ export class AuthService {
           return user;
         })
       );
+  }
+
+  updateUserPassword(updatePasswordDTO: UpdatePasswordDTO): Observable<any> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    return this.http.post(`${this.baseUrl}/update-user`, updatePasswordDTO, {
+      headers,
+    });
   }
 
   logout() {

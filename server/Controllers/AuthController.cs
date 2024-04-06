@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
@@ -40,6 +41,22 @@ namespace server.Controllers
             {
                 var token = await _authService.LoginUser(loginRequest);
                 return Ok(token);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("update-user")]
+        public async Task<IActionResult> UpdateUser(UpdatePasswordDTO updatePasswordDTO)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                await _authService.UpdateUserPassword(userId, updatePasswordDTO);
+                return Ok();
             }
             catch (Exception e)
             {

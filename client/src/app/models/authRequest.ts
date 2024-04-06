@@ -22,3 +22,8 @@ export interface DecodedToken {
   userid: number;
   email: string;
 }
+
+export interface UpdatePasswordDTO {
+  newPassword: string;
+  confirmNewPassword: string;
+}

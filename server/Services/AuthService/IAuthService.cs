@@ -8,5 +8,7 @@ namespace server.Services
         Task RegisterUser(RegisterRequestDTO registerRequest);
         Task<string> LoginUser(LoginRequestDTO loginRequest);
 
+        Task UpdateUserPassword(int userId, UpdatePasswordDTO updatePasswordDTO);
+
     }
 }

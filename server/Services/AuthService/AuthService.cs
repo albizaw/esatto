@@ -67,5 +67,26 @@ namespace server.Services
 
             return token;
         }
+
+        public async Task UpdateUserPassword(int userId, UpdatePasswordDTO updatePasswordDTO)
+        {
+            var user = await _userRepository.GetUserById(userId);
+
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (updatePasswordDTO.NewPassword != updatePasswordDTO.ConfirmNewPassword)
+            {
+                throw new Exception("New passwords do not match");
+            }
+
+            var hasher = new PasswordHasher<User>();
+            user.HashedPassword = hasher.HashPassword(user, updatePasswordDTO.NewPassword);
+
+
+            await _userRepository.UpdateUser(user);
+        }
     }
 }

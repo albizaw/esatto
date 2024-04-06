@@ -1,1 +1,29 @@
-<p>To Do</p>
+<div class="update-password-container">
+  <div class="user-info">
+    Logged in as: <strong>{{ currentUser?.email || "Guest" }}</strong>
+  </div>
+
+  <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmit()">
+    <app-password-input
+      [control]="getControl('newPassword')"
+    ></app-password-input>
+
+    <app-password-input
+      label="Confirm Password"
+      [control]="getControl('confirmNewPassword')"
+    ></app-password-input>
+
+    <div *ngIf="updatePasswordForm.errors?.['notSame']" class="error-message">
+      Passwords do not match.
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!updatePasswordForm.valid"
+    >
+      Update Password
+    </button>
+  </form>
+</div>
