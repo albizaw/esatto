@@ -83,9 +83,9 @@ export class PatientsListComponent implements OnInit {
     this.patientService.getPatients().subscribe({
       next: (patients) => {
         this.dataSource.data = patients;
-        this.isLoading = false;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error fetching patients:', error);

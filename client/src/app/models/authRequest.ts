@@ -21,6 +21,7 @@ export interface LoginResponse {
 export interface DecodedToken {
   userid: number;
   email: string;
+  exp: number;
 }
 
 export interface UpdatePasswordDTO {

@@ -53,8 +53,7 @@ namespace server.Controllers
         {
             try
             {
-                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+                var userId = int.Parse(HttpContext.User.FindFirstValue("userid"));
                 await _authService.UpdateUserPassword(userId, updatePasswordDTO);
                 return Ok();
             }

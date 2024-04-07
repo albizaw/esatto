@@ -19,18 +19,17 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private baseUrl = 'http://localhost:5244/api/Auth';
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private currentUserSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  public currentUser: Observable<User | null> =
+    this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
-    const storedUser = localStorage.getItem('currentUser');
-    const currentUser = storedUser ? JSON.parse(storedUser) : null;
-    this.currentUserSubject = new BehaviorSubject<User | null>(currentUser);
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.refreshCurrentUser();
   }
 
-  private loadUserFromToken() {
-    const token = localStorage.getItem('token');
+  private refreshCurrentUser(): void {
+    const token = this.getToken();
     if (token) {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
@@ -40,7 +39,7 @@ export class AuthService {
         };
         this.currentUserSubject.next(user);
       } catch (error) {
-        console.error('Decoding token failed', error);
+        console.error('Error decoding token:', error);
       }
     }
   }
@@ -84,8 +83,19 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token;
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decodedToken = jwtDecode<DecodedToken>(token);
+      const now = Date.now() / 1000;
+      return decodedToken.exp > now;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return false;
+    }
   }
 
   public getToken(): string | null {
