@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { startWith, switchMap, map } from 'rxjs';
@@ -42,7 +48,8 @@ export class PatientsListComponent implements OnInit {
   constructor(
     private patientService: PatientService,
     private toast: NgToastService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -80,17 +87,12 @@ export class PatientsListComponent implements OnInit {
 
   fetchPatients() {
     this.isLoading = true;
-    this.patientService.getPatients().subscribe({
-      next: (patients) => {
-        this.dataSource.data = patients;
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching patients:', error);
-        this.isLoading = false;
-      },
+    this.patientService.getPatients().subscribe((patients) => {
+      this.isLoading = false;
+      this.dataSource.data = patients;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.cdr.detectChanges();
     });
   }
 
