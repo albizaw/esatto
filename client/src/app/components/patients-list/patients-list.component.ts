@@ -16,6 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPatientDialogComponent } from '../edit-patient-dialog/edit-patient-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { LayoutService } from 'src/app/services/layout/layout.service';
 
 @Component({
   selector: 'app-patients-list',
@@ -23,30 +24,19 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.updateDisplayedColumns();
-  }
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
-  displayedColumns: string[] = [
-    'id',
-    'firstName',
-    'lastName',
-    'PESEL',
-    'city',
-    'street',
-    'zipCode',
-    'actions',
-  ];
+  displayedColumns: string[] = [];
 
   isLoading = true;
+  showPaginator = true;
   dataSource = new MatTableDataSource<PatientDTO>();
   searchControl = new FormControl('');
 
   constructor(
     private patientService: PatientService,
+    private layoutService: LayoutService,
     private toast: NgToastService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef
@@ -54,6 +44,23 @@ export class PatientsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchPatients();
+
+    this.layoutService.isMobile$.subscribe((isMobile) => {
+      if (isMobile) {
+        this.displayedColumns = ['id', 'firstName', 'lastName', 'actions'];
+      } else {
+        this.displayedColumns = [
+          'id',
+          'firstName',
+          'lastName',
+          'PESEL',
+          'city',
+          'street',
+          'zipCode',
+          'actions',
+        ];
+      }
+    });
 
     this.patientService.getPatients().subscribe((patients) => {
       this.dataSource.data = patients;
@@ -82,6 +89,7 @@ export class PatientsListComponent implements OnInit {
       .pipe(startWith(''))
       .subscribe((filterValue) => {
         this.dataSource.filter = filterValue ?? '';
+        this.showPaginator = this.dataSource.filteredData.length > 0;
       });
   }
 
@@ -94,22 +102,6 @@ export class PatientsListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.cdr.detectChanges();
     });
-  }
-
-  updateDisplayedColumns() {
-    this.displayedColumns =
-      window.innerWidth <= 768
-        ? ['id', 'firstName', 'lastName', 'actions']
-        : [
-            'id',
-            'firstName',
-            'lastName',
-            'PESEL',
-            'city',
-            'street',
-            'zipCode',
-            'actions',
-          ];
   }
 
   deletePatient(patientId: number): void {

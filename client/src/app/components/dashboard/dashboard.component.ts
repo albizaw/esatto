@@ -3,7 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { LayoutService } from 'src/app/services/layout/layout.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,15 +15,15 @@ export class DashboardComponent {
   sidenav!: MatSidenav;
 
   constructor(
-    private observer: BreakpointObserver,
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layoutService: LayoutService
   ) {}
 
   ngAfterViewInit() {
-    this.observer.observe(['(max-width:768px)']).subscribe((res) => {
-      if (res.matches) {
+    this.layoutService.isMobile$.subscribe((isMobile) => {
+      if (isMobile) {
         this.sidenav.mode = 'over';
         this.sidenav.close();
       } else {
@@ -31,18 +31,14 @@ export class DashboardComponent {
         this.sidenav.open();
       }
     });
-
-    this.router.events.subscribe(() => {
-      if (this.sidenav.mode === 'over' && this.sidenav.opened) {
-        this.sidenav.close();
-      }
-    });
   }
 
   onLinkClick(route: string) {
-    if (this.sidenav.mode === 'over' && this.sidenav.opened) {
-      this.sidenav.close();
-    }
+    this.layoutService.isMobile$.subscribe((isMobile) => {
+      if (isMobile && this.sidenav.opened) {
+        this.sidenav.close();
+      }
+    });
     this.router.navigate([route], { relativeTo: this.route });
   }
 
